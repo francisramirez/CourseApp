@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CourseAdmin.Domain\CourseAdmin.Domain.csproj" />
+    <ProjectReference Include="..\CourseAdmin.Respository\CourseAdmin.Respository.csproj" />
+  </ItemGroup>
+
+</Project>
