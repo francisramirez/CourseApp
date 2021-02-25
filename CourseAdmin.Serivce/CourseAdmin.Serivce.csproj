@@ -9,4 +9,8 @@
     <ProjectReference Include="..\CourseAdmin.Respository\CourseAdmin.Respository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

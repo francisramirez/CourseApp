@@ -1,11 +1,11 @@
 ﻿
 using CourseAdmin.Domain.Entities;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+ 
 
 namespace CourseAdmin.Respository.Interfaces
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentRepository : IBaseRepository<Department>
     {
         IEnumerable<Department> GetDepartmests();
     }

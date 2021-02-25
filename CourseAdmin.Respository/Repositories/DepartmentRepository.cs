@@ -17,7 +17,8 @@ namespace CourseAdmin.Respository.Repositories
 
         public IEnumerable<Department> GetDepartmests()
         {
-            throw new System.NotImplementedException();
+            return base.FindAll(cd => !cd.Deleted);
         }
+        
     }
 }
