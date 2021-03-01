@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseAdmin.Respository.Context;
+using CourseAdmin.Respository.Interfaces;
+using CourseAdmin.Respository.Repositories;
+using CourseAdmin.Serivce;
+using CourseAdmin.Serivce.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +37,9 @@ namespace CourseAdmin.WebUi
             });
             
             services.AddDbContext<SchoolContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("SchoolContext")));
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddTransient<IDepartmentService, DepartmentService>();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

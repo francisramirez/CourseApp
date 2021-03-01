@@ -12,8 +12,8 @@ namespace CourseAdmin.Respository.Interfaces
         Task Add(TEntity entity);
         Task Add(params TEntity[] entities);
         void Remove(TEntity entity);
-
         void Update(TEntity entity);
+        Task<bool> Commit();
         Task<bool> Exists(Expression<Func<TEntity, bool>> filter);
 
        

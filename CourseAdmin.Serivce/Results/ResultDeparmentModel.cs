@@ -1,9 +1,8 @@
-﻿using System;
+﻿
 
-
-namespace CourseAdmin.Serivce.Models
+namespace CourseAdmin.Serivce.Results
 {
-    public class DeparmentModel
+    public class ResultDeparmentModel
     {
         public int DepartmentId { get; set; }
         public string Name { get; set; }

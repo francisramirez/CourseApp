@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CourseAdmin.Serivce.Core;
+using System.Threading.Tasks;
 
 namespace CourseAdmin.Serivce.Contracts
 {
     public interface IDepartmentService
     {
-        
+      ServiceResult GetDepartments();
+      Task<ServiceResult> SaveDeparment(Models.DeparmentModel deparment);
+       
     }
 }

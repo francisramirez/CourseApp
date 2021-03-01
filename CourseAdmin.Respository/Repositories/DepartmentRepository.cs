@@ -9,10 +9,9 @@ namespace CourseAdmin.Respository.Repositories
 {
     public class DepartmentRepository: BaseRepository<Department>, IDepartmentRepository
     {
-        private readonly SchoolContext schoolContext;
         public DepartmentRepository(SchoolContext school) : base(school)
         {
-            this.schoolContext = school;
+            
         }
 
         public IEnumerable<Department> GetDepartmests()
