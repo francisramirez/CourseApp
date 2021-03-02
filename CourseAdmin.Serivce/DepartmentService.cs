@@ -21,9 +21,35 @@ namespace CourseAdmin.Serivce
             _departmentRepository = departmentRepository;
             _logger = logger;
         }
-        public ServiceResult GetDepartments()
+        public async  Task<DeparmentServiceResult> GetDeparmentById(int Id)
         {
-            ServiceResult result = new ServiceResult();
+            DeparmentServiceResult result = new DeparmentServiceResult();
+            try
+            {
+                var deptoFound = await _departmentRepository.GetById(Id);
+                
+                result.Data = new ResultDeparmentModel()
+                {
+                     Administrator = deptoFound.Administrator,
+                    Budget = deptoFound.Budget,
+                    DepartmentId = deptoFound.DepartmentId,
+                    Name = deptoFound.Name,
+                    StartDate = deptoFound.StartDate.ToString("MM/dd/yyyy")
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error: {ex.Message}", ex);
+                //sendEmail
+                result.success = false;
+                result.message = "Error obteniendo los departamentos";
+            }
+            return result;
+        }
+
+        public DeparmentServiceResult GetDepartments()
+        {
+            DeparmentServiceResult result = new DeparmentServiceResult();
 
             try
             {
@@ -49,12 +75,20 @@ namespace CourseAdmin.Serivce
             return result;
         }
 
-        public async Task<ServiceResult> SaveDeparment(DeparmentModel deparment)
+        public async Task<DeparmentServiceResult> SaveDeparment(DeparmentModel deparment)
         {
-            ServiceResult result = new ServiceResult();
+            DeparmentServiceResult result = new DeparmentServiceResult();
 
             try
             {
+                if (await ValidateDeparmentName(deparment.Name))
+                {
+                    result.success = false;
+                    result.message = $"Este departamento: {deparment.Name} ya esta registrado.";
+                    return result;
+                }
+
+
                 Department newDepartment = new Department()
                 {
                     Administrator = deparment.Administrator,
@@ -79,6 +113,44 @@ namespace CourseAdmin.Serivce
                 result.message = "Error agregando la informacion del departamento";
             }
             return result;
+        }
+
+        public async Task<DeparmentServiceResult> UpdateDeparment(DeparmentModel deparment)
+        {
+            DeparmentServiceResult result = new DeparmentServiceResult();
+
+            try
+            {
+                var deptUpdated = await _departmentRepository.GetById(deparment.DepartmentId);
+                             
+
+                deptUpdated.Administrator = deparment.Administrator;
+                deptUpdated.Budget = deparment.Budget;
+                deptUpdated.ModifyDate = DateTime.Now;
+                deptUpdated.UserMod = 1;
+                deptUpdated.Name = deparment.Name;
+                deptUpdated.StartDate = Convert.ToDateTime(deparment.StartDate);
+              
+
+                _departmentRepository.Update(deptUpdated);
+
+                await _departmentRepository.Commit();
+
+                result.message = "Departamento acutalizado correctamente.";
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError($"Error: {ex.Message}", ex);
+                result.success = false;
+                result.message = "Error agregando la informacion del departamento";
+            }
+            return result;
+        }
+
+        private async Task<bool> ValidateDeparmentName(string name) 
+        {
+            return await _departmentRepository.Exists(cd => cd.Name == name);
         }
     }
 }

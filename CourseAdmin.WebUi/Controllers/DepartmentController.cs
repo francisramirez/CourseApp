@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseAdmin.Serivce.Contracts;
+using CourseAdmin.Serivce.Core;
+using CourseAdmin.Serivce.Models;
 using CourseAdmin.Serivce.Results;
 using CourseAdmin.WebUi.Models;
 using Microsoft.AspNetCore.Http;
@@ -50,11 +52,33 @@ namespace CourseAdmin.WebUi.Controllers
         // POST: DepartmentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Department department)
         {
+            ServiceResult result;
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             try
             {
+                result = await _departmentService.SaveDeparment(new DeparmentModel() 
+                {
+                    Administrator= department.Administrador,
+                    Budget= department.Budget.Value, 
+                    Name= department.Name, 
+                    StartDate= department.StartDate
+                });
+
+                if (!result.success)
+                {
+                    ViewData["Message"] = result.message;
+                    return View();
+                   
+                }
                 return RedirectToAction(nameof(Index));
+
             }
             catch
             {
@@ -63,19 +87,54 @@ namespace CourseAdmin.WebUi.Controllers
         }
 
         // GET: DepartmentController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            ResultDeparmentModel  resultDeparment   = (ResultDeparmentModel)(await _departmentService.GetDeparmentById(id)).Data;
+
+            var deparmentEdit = new Department()
+            {
+                Administrador = resultDeparment.Administrator, 
+                Budget= resultDeparment.Budget, 
+                DepartmentId= resultDeparment.DepartmentId,
+                Name= resultDeparment.Name, 
+                StartDate= resultDeparment.StartDate,
+            };
+
+
+            return View(deparmentEdit);
         }
 
         // POST: DepartmentController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(Department department)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View();
+                }
+
+                var result = await _departmentService.UpdateDeparment(new DeparmentModel() 
+                {
+                    Administrator = department.Administrador,
+                    Budget = department.Budget.Value,
+                    Name = department.Name,
+                    StartDate = department.StartDate,
+                    DepartmentId= department.DepartmentId
+                });
+
+                if (!result.success)
+                {
+                    ViewData["Message"] = result.message;
+                    return View();
+                }
+
                 return RedirectToAction(nameof(Index));
+
+
+
             }
             catch
             {

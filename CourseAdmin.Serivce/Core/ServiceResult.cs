@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CourseAdmin.Serivce.Core
 {
-    public class ServiceResult
+    public abstract class ServiceResult
     {
         public ServiceResult()
         {

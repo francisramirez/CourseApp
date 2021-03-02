@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CourseAdmin.Respository.Context;
+﻿using CourseAdmin.Respository.Context;
 using CourseAdmin.Respository.Interfaces;
 using CourseAdmin.Respository.Repositories;
 using CourseAdmin.Serivce;

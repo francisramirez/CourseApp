@@ -1,26 +1,29 @@
 ﻿@model CourseAdmin.WebUi.Models.Department
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h2>Create Department</h2>
-
-<hr />
+<h2>Edit Department</h2>
 @if (ViewData["Message"] != null)
 {
     <div class="alert alert-danger" role="alert">
         <p>@ViewData["Message"]</p>
     </div>
 }
+<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DepartmentId" class="control-label"></label>
+                <input asp-for="DepartmentId" class="form-control" type="hidden" />
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
-                @*@Html.TextBoxFor(cd => cd.Name, new  { @class= "form-control" })*@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" type="date" />
+                <input asp-for="StartDate" class="form-control" type="date"  />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,9 +42,8 @@
                 <span asp-validation-for="Administrador" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
-
         </form>
     </div>
 </div>

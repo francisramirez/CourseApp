@@ -5,8 +5,12 @@ namespace CourseAdmin.Serivce.Contracts
 {
     public interface IDepartmentService
     {
-      ServiceResult GetDepartments();
-      Task<ServiceResult> SaveDeparment(Models.DeparmentModel deparment);
-       
+        DeparmentServiceResult GetDepartments();
+        Task<DeparmentServiceResult> SaveDeparment(Models.DeparmentModel deparment);
+
+        Task<DeparmentServiceResult> UpdateDeparment(Models.DeparmentModel deparment);
+
+        Task<DeparmentServiceResult> GetDeparmentById(int Id);
+
     }
 }
