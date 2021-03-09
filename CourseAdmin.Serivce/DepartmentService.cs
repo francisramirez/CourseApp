@@ -8,6 +8,7 @@ using CourseAdmin.Respository.Interfaces;
 using CourseAdmin.Domain.Entities;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace CourseAdmin.Serivce
 {
@@ -15,12 +16,17 @@ namespace CourseAdmin.Serivce
     {
         private readonly IDepartmentRepository _departmentRepository;
         private readonly ILogger<DepartmentService> _logger;
+        private readonly IConfiguration _configuration;
 
-        public DepartmentService(IDepartmentRepository departmentRepository, ILogger<DepartmentService> logger)
+        public DepartmentService(IDepartmentRepository departmentRepository, 
+                                 ILogger<DepartmentService> logger, 
+                                 IConfiguration configuration)
         {
             _departmentRepository = departmentRepository;
             _logger = logger;
+            _configuration = configuration;
         }
+                
         public async  Task<DeparmentServiceResult> GetDeparmentById(int Id)
         {
             DeparmentServiceResult result = new DeparmentServiceResult();
@@ -63,7 +69,6 @@ namespace CourseAdmin.Serivce
                 }).ToList();
 
                 
-
                 return result;
             }
             catch (Exception ex)
@@ -73,6 +78,33 @@ namespace CourseAdmin.Serivce
                 result.message = "Error obteniendo los departamentos";
             }
             return result;
+        }
+
+        public async Task<DeparmentServiceResult> RemoveDepartment(DepartmentRemoveModel departmentRemove)
+        {
+            DeparmentServiceResult serviceResult = new DeparmentServiceResult();
+            try
+            {
+                Department department = await this._departmentRepository.GetById(departmentRemove.DepartmentId);
+                
+                department.Deleted = true;
+                department.UserDeleted = departmentRemove.UserDeleted;
+                department.DeletedDate = DateTime.Now;
+
+                _departmentRepository.Update(department);
+                await _departmentRepository.Commit();
+
+                serviceResult.success = true;
+                serviceResult.message = _configuration["Mensajes:MensajeEliminado"];
+            }
+            catch (Exception ex)
+            {
+                serviceResult.success = false;
+                serviceResult.message = _configuration["Mensajes:MensajeErrorEliminado"];
+                _logger.LogError(serviceResult.message, ex);
+
+            }
+            return serviceResult;
         }
 
         public async Task<DeparmentServiceResult> SaveDeparment(DeparmentModel deparment)
@@ -115,7 +147,7 @@ namespace CourseAdmin.Serivce
             return result;
         }
 
-        public async Task<DeparmentServiceResult> UpdateDeparment(DeparmentModel deparment)
+        public async Task<DeparmentServiceResult> UpdateDeparment(DepartmentModifyModel deparment)
         {
             DeparmentServiceResult result = new DeparmentServiceResult();
 

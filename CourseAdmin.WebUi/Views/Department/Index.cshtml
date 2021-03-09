@@ -9,10 +9,10 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -26,25 +26,53 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Budget)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-          
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.DepartmentId }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Budget)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.DepartmentId }, new { @class = "btn btn-warning" })
+                    @*<a href="#" class="btn btn-warning" onclick="GetDepartmentInfo(@item.DepartmentId)">Editar</a>*@
+                    <a href="#" class="btn btn-danger" onclick="deleteConfirmDepartment(@item.DepartmentId,'@item.Name')">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+@*Modal To Delete*@
+<div id="modalDeleteDepto" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle" style="font-weight:600" >Delete Department</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="deptoIdDelete" />
+                <p style="font-weight:600">Are you sure delete this department: <span id="deptoDelete"></span>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnDeleteDepto" type="button" class="btn btn-danger">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+ <script src="~/js/department.js"></script>
+}

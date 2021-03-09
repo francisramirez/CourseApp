@@ -33,8 +33,14 @@ namespace CourseAdmin.WebUi
             });
             
             services.AddDbContext<SchoolContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("SchoolContext")));
+           
+            //Repositorios//
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+           
+            //Servicios//
             services.AddTransient<IDepartmentService, DepartmentService>();
+            services.AddTransient<ICourseService, CourseService>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
