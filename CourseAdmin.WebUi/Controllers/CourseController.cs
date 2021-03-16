@@ -5,40 +5,104 @@ using CourseAdmin.WebUi.Models;
 using CourseAdmin.Serivce.Models;
 using CourseAdmin.Serivce.Core;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using CourseAdmin.Serivce.Results;
+using System.Linq;
+using CourseAdmin.WebUi.ViewModels;
 
 namespace CourseAdmin.WebUi.Controllers
 {
     public class CourseController : Controller
     {
         private readonly ICourseService _courseService;
+        private readonly IDepartmentService _departmentService;
 
-        public CourseController(ICourseService courseService)
+        public CourseController(ICourseService courseService, IDepartmentService departmentService)
         {
             _courseService = courseService;
+            _departmentService = departmentService;
         }
-        // GET: CourseController
+
+        [HttpPost]
+        public async Task<IActionResult> GetCourseInfo(int courseId)
+        {
+            var CourseResult = await _courseService.GetCourseInfoById(courseId);
+
+            return Ok(CourseResult);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Modify(CourseModelModify courseModify) 
+        {
+            CourseModify courseMod = new CourseModify()
+            {
+                CourseId= courseModify.CourseId, 
+                UserMod=1,
+                Credits= courseModify.Credits, 
+                DepartmentId= courseModify.DepartmentId, 
+                Title= courseModify.Title
+            };
+
+            var result = await _courseService.ModifyCourse(courseMod);
+
+            return Ok(result);
+        }
+
+
+        
         public ActionResult Index()
         {
-            var courses = _courseService.GetCourses();
+            var courses = (List<CourseResultModel>)_courseService.GetCourses().Data;
 
-            return View(courses.Data);
+            var resultDepartment = _departmentService.GetDepartments().Data;
+
+            var departaments = ((List<ResultDeparmentModel>)resultDepartment).Select(dep => new DepartmentViewModel()
+            {
+                DepartmentId = dep.DepartmentId,
+                Name = dep.Name
+            }).ToList();
+
+            ViewBag.DepartmentList = new SelectList(departaments, "DepartmentId", "Name");
+
+            CourseViewModel courseViewModel = new CourseViewModel()
+            {
+                  CourseList= courses.Select(cd => new CourseList() 
+                  {
+                      CourseId= cd.CourseId, 
+                      Credits=cd.Credits, 
+                      DepartmentName= 
+                      cd.DepartmentName, 
+                      Title= cd.Title
+                  }).ToList()
+            };
+            
+            return View(courseViewModel);
         }
 
-        // GET: CourseController/Details/5
+        
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: CourseController/Create
+        
         public ActionResult Create()
         {
+            var resultDepartment = _departmentService.GetDepartments().Data;
+
+            var departaments = ((List<ResultDeparmentModel>)resultDepartment).Select(dep => new DepartmentViewModel()
+            {
+                DepartmentId = dep.DepartmentId,
+                Name = dep.Name
+            }).ToList();
+
+            ViewBag.DepartmentList = new SelectList(departaments, "DepartmentId", "Name");
+
             return View();
         }
 
-        // POST: CourseController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Course course)
         {
             try
@@ -53,7 +117,7 @@ namespace CourseAdmin.WebUi.Controllers
 
                 var CourseServiceResult = await _courseService.SaveCourse(courseSaveModel);
 
-                return RedirectToAction(nameof(Index));
+                return Ok(CourseServiceResult);
             }
             catch
             {
@@ -61,36 +125,7 @@ namespace CourseAdmin.WebUi.Controllers
             }
         }
 
-        // GET: CourseController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CourseController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CourseController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CourseController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try

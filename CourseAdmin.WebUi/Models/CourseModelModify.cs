@@ -1,12 +1,13 @@
 ﻿
-namespace CourseAdmin.Serivce.Models
+namespace CourseAdmin.WebUi.Models
 {
-    public class CourseSaveModel
+    public class CourseModelModify
     {
         public int CourseId { get; set; }
         public string Title { get; set; }
         public int Credits { get; set; }
         public int DepartmentId { get; set; }
-        public int CreationUser { get; set; }
+        public int UserId { get; set; }
+
     }
 }

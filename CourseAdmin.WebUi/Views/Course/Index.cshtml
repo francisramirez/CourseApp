@@ -1,47 +1,84 @@
-﻿@model IEnumerable<CourseAdmin.Serivce.Results.CourseResultModel>
+﻿@model CourseAdmin.WebUi.ViewModels.CourseViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Admin Courses</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a id="btnAddNewCourse" class="btn btn-primary" data-toggle="modal" data-target="#courseModal">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Credits)
+                Credits
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DepartmentName)
+                DepartmentName
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Credits)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepartmentName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.CourseList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Credits)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentName)
+                </td>
+                <td>
+                    <a href="#" class="btn btn-warning" onclick="getCourseInfo(@item.CourseId)">Editar</a>
+                    <a href="#" class="btn btn-danger" onclick="getCourseInfo(@item.CourseId)">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@*Modal to Create And Edit Course*@
+<div class="modal fade" id="courseModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle" style="font-weight:600">Add New Course</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formCourse">
+                    <input type="hidden" id="courseId" />
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Title*">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="credit" name="credit" placeholder="Credit*">
+                    </div>
+                    <div class="form-group">
+                        @Html.DropDownListFor(course => course.DepartmentId, ViewBag.DepartmentList as SelectList, "--Select Dept-", new { @id = "ddlDeptos", @class = "form-control", @name = "departmenId" })
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnSaveData" type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/js/Course.js"></script>
+}

@@ -29,6 +29,25 @@ namespace CourseAdmin.Serivce
             _looger = looger;
             _configuration = configuration;
         }
+
+        public async Task<CourseServiceResult> GetCourseInfoById(int courseId)
+        {
+            CourseServiceResult result = new CourseServiceResult();
+            try
+            {
+                result.Data = (await _courseRepository.GetById(courseId)).ConvertCourseResultModelFromCourse();
+                result.success = true;
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.message = _configuration["MensajesCourse:MensajeErrorGet"];
+                _looger.LogError(result.message, ex);
+            }
+
+            return result;
+        }
+
         public CourseServiceResult GetCourses()
         {
             CourseServiceResult result = new CourseServiceResult();
@@ -57,7 +76,36 @@ namespace CourseAdmin.Serivce
                 _looger.LogError(result.message, ex);
             }
             return result;
-        } 
+        }
+
+        public async Task<CourseServiceResult> ModifyCourse(CourseModify courseModify)
+        {
+            CourseServiceResult result = new CourseServiceResult();
+            try
+            {
+                Course courseMod = await _courseRepository.GetById(courseModify.CourseId);
+
+                courseMod.Title = courseModify.Title;
+                courseMod.Credits = courseModify.Credits;
+                courseMod.ModifyDate = DateTime.Now;
+                courseMod.UserMod = courseModify.UserMod;
+
+                _courseRepository.Update(courseMod);
+
+               await _courseRepository.Commit();
+
+                result.message = "Curso modificado correctamente.";
+              
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.message = "Ocurrió un error modificando el curso.";
+                _looger.LogError(result.message, ex);
+
+            }
+            return result;
+        }
 
         public async Task<CourseServiceResult> SaveCourse(CourseSaveModel deparment)
         {
