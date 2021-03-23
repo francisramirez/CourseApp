@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using CourseAdmin.Serivce.Contracts;
 using CourseAdmin.WebUi.Models;
 using CourseAdmin.Serivce.Models;
-using CourseAdmin.Serivce.Core;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;

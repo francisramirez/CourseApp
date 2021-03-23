@@ -15,7 +15,7 @@ namespace CourseAdmin.Respository.Context
 
         }
 
-
+        #region "entities"
         public virtual DbSet<Course> Course { get; set; }
         public virtual DbSet<CourseInstructor> CourseInstructor { get; set; }
         public virtual DbSet<Department> Department { get; set; }
@@ -24,6 +24,14 @@ namespace CourseAdmin.Respository.Context
         public virtual DbSet<OnsiteCourse> OnsiteCourse { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<StudentGrade> StudentGrade { get; set; }
+
+
+        #endregion
+
+        #region"Views"
+         public DbQuery<ViewInstructors> ViewInstructors { get; set; }
+
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -141,6 +149,9 @@ namespace CourseAdmin.Respository.Context
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StudentGrade_Student");
             });
+
+            //Mapping Views//
+            modelBuilder.Query<ViewInstructors>().ToView("ViewInstructors");
 
         }
     }

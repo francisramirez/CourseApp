@@ -47,7 +47,6 @@ namespace CourseAdmin.Serivce
 
             return result;
         }
-
         public CourseServiceResult GetCourses()
         {
             CourseServiceResult result = new CourseServiceResult();
@@ -77,7 +76,6 @@ namespace CourseAdmin.Serivce
             }
             return result;
         }
-
         public async Task<CourseServiceResult> ModifyCourse(CourseModify courseModify)
         {
             CourseServiceResult result = new CourseServiceResult();
@@ -106,7 +104,6 @@ namespace CourseAdmin.Serivce
             }
             return result;
         }
-
         public async Task<CourseServiceResult> SaveCourse(CourseSaveModel deparment)
         {
             CourseServiceResult result = new CourseServiceResult();

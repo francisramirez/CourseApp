@@ -3,6 +3,7 @@ using CourseAdmin.Respository.Interfaces;
 using CourseAdmin.Respository.Repositories;
 using CourseAdmin.Serivce;
 using CourseAdmin.Serivce.Contracts;
+using CourseAdmin.Serivce.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -37,11 +38,12 @@ namespace CourseAdmin.WebUi
             //Repositorios//
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<ICourseRepository, CourseRepository>();
-           
+            services.AddScoped<IInstructorReprository, InstructorReprository>();
+            
             //Servicios//
             services.AddTransient<IDepartmentService, DepartmentService>();
             services.AddTransient<ICourseService, CourseService>();
-
+            services.AddTransient<IInstructorService, InstructorService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
