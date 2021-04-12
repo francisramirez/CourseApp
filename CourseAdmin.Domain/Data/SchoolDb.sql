@@ -673,3 +673,68 @@ USE [master]
 GO
 ALTER DATABASE [School] SET  READ_WRITE 
 GO
+
+
+USE [School]
+GO
+/****** Object:  StoredProcedure [dbo].[AddInstructor]    Script Date: 3/29/2021 8:40:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[AddInstructor]
+    @LastName nvarchar(50),
+	@FirstName nvarchar(50),
+	@HireDate datetime,
+	@EnrollmentDate datetime,
+	@Discriminator nvarchar(50),
+	@CourseId INT,
+	@P_Result VARCHAR(MAX) OUTPUT
+AS
+BEGIN
+ DECLARE @_personID INT = 0;
+  BEGIN TRY
+    BEGIN TRAN
+	   --Agregar la persona--
+	 EXEC [dbo].[InsertPerson] @LastName,@FirstName,@HireDate,@EnrollmentDate, @Discriminator,  @_personID OUTPUT;
+	     
+    --Asociamos el curso con el instructor--
+    INSERT INTO [dbo].[CourseInstructor]
+           ([CourseID]
+           ,[PersonID])
+     VALUES
+           (@CourseID,
+            @_personID);
+		  
+    COMMIT;
+
+	SET @P_Result = 'Ok';
+
+  END TRY
+  BEGIN CATCH
+  ROLLBACK;
+   SET @P_Result = 'ERROR ' + ERROR_MESSAGE();
+  END CATCH
+END;
+USE [School]
+GO
+/****** Object:  StoredProcedure [dbo].[GetInstructors]    Script Date: 3/29/2021 8:41:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetInstructors]
+  @CourseId int,
+  @StartDate date,
+  @EndDate date
+AS
+SELECT [InstructorId]
+      ,[FirstName]
+      ,[LastName]
+      ,[HireDate]
+      ,[CourseId]
+      ,[Course]
+  FROM [School].[dbo].[ViewInstructors]
+   WHERE CourseId = @CourseId 
+   AND HireDate >= @StartDate 
+   AND HireDate <=  @EndDate

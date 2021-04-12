@@ -12,5 +12,7 @@ namespace CourseAdmin.Respository.Interfaces
 
         List<InstructorCourse> GetInstructorCourses(int courseId, DateTime startDate, DateTime endDate);
 
+        Task<string> AddInstructorWithProc(Instructor instructor);
+
     }
 }

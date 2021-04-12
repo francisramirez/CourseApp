@@ -25,9 +25,12 @@ namespace CourseAdmin.Serivce
             InstructorResult result = new InstructorResult();
             try
             {
-                await _instructorRepository.AddInstructor(instructor);
+                //await _instructorRepository.AddInstructor(instructor);
+
+                result.message = await _instructorRepository.AddInstructorWithProc(instructor);
+                
                 result.success = true;
-                result.message = "Instructor agregado correctamente.";
+                result.message = result.message.Equals("Ok") ? "Instructor agregado correctamente." : "Error agregando el instructor.";
             }
             catch (Exception ex)
             {
@@ -62,7 +65,7 @@ namespace CourseAdmin.Serivce
             
             try
             {
-                result.Data = _instructorRepository.GetInstructorCourses(courseId, startDate, endDate);
+                result.Data = _instructorRepository.GetInstructorCourses(courseId, startDate.Date, endDate.Date);
                 result.success = true;
 
             }

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseAdmin.WebUi", "Course
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseAdmin.Api", "CourseAdmin.Api\CourseAdmin.Api.csproj", "{EDA20820-9578-431D-8768-AAE6F26D5349}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseAdmin.Auth", "CourseAdmin.Auth\CourseAdmin.Auth.csproj", "{7CF2F44D-78EA-4D69-B577-488A3742A68C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{EDA20820-9578-431D-8768-AAE6F26D5349}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDA20820-9578-431D-8768-AAE6F26D5349}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDA20820-9578-431D-8768-AAE6F26D5349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CF2F44D-78EA-4D69-B577-488A3742A68C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CF2F44D-78EA-4D69-B577-488A3742A68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CF2F44D-78EA-4D69-B577-488A3742A68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CF2F44D-78EA-4D69-B577-488A3742A68C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

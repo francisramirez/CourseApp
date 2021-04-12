@@ -5,10 +5,8 @@ using CourseAdmin.WebUi.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using System;
 namespace CourseAdmin.WebUi.Controllers
 {
     public class InstructorController : Controller
@@ -24,17 +22,18 @@ namespace CourseAdmin.WebUi.Controllers
         // GET: InstructorController
         public ActionResult Index()
         {
-            
-            var instructors = _instructorService.GetInstructorCourses();
+            DateTime startDate = new DateTime(2021, 3, 1);
+            DateTime endDate = new DateTime(2021, 3, 29);
+
+            var instructors = _instructorService.GetInstructorCourses(1045, startDate, endDate);
 
             IntructorViewModel intructorViewModel = new IntructorViewModel();
 
             intructorViewModel.InstructorCourses = (List<InstructorCourse>)instructors.Data;
 
-            var courses =(List<CourseResultModel>)_courseService.GetCourses().Data;
+            var courses = (List<CourseResultModel>)_courseService.GetCourses().Data;
 
             ViewBag.Courses = new SelectList(courses, "CourseId", "Title");
-           
 
             return View(intructorViewModel);
         }
@@ -54,19 +53,11 @@ namespace CourseAdmin.WebUi.Controllers
         // POST: InstructorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Instructor instructorModel)
         {
             try
             {
-                //Instructor instructorModel = new Instructor()
-                //{
-                //    CourseId = 1045,
-                //    FirstName = "Jose",
-                //    LastName = "Perez",
-                //    HireDate = DateTime.Now 
-                //};
-
-                //await _instructorService.AddInstructor(instructorModel);
+                _instructorService.AddInstructor(instructorModel);
                 return RedirectToAction(nameof(Index));
             }
             catch

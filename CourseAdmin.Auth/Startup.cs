@@ -1,18 +1,19 @@
-﻿using CourseAdmin.Respository.Context;
-using CourseAdmin.Respository.Interfaces;
-using CourseAdmin.Respository.Repositories;
-using CourseAdmin.Serivce;
-using CourseAdmin.Serivce.Contracts;
-using CourseAdmin.Serivce.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CourseAdmin.Auth.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CourseAdmin.WebUi
+namespace CourseAdmin.Auth
 {
     public class Startup
     {
@@ -32,19 +33,12 @@ namespace CourseAdmin.WebUi
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
-            services.AddDbContext<SchoolContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("SchoolContext")));
-          
 
-            //Repositorios//
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<ICourseRepository, CourseRepository>();
-            services.AddScoped<IInstructorReprository, InstructorReprository>();
-            
-            //Servicios//
-            services.AddTransient<IDepartmentService, DepartmentService>();
-            services.AddTransient<ICourseService, CourseService>();
-            services.AddTransient<IInstructorService, InstructorService>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -55,15 +49,20 @@ namespace CourseAdmin.WebUi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-          
+
+            app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
