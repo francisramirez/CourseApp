@@ -35,7 +35,6 @@ namespace CourseAdmin.WebUi
             
             services.AddDbContext<SchoolContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("SchoolContext")));
           
-
             //Repositorios//
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<ICourseRepository, CourseRepository>();
@@ -58,7 +57,7 @@ namespace CourseAdmin.WebUi
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseStaticFiles();

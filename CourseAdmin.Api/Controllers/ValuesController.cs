@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CourseAdmin.Api.Controllers
 {
+   
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -29,6 +30,7 @@ namespace CourseAdmin.Api.Controllers
         public void Post([FromBody] string value)
         {
         }
+       
 
         // PUT api/values/5
         [HttpPut("{id}")]
@@ -37,6 +39,7 @@ namespace CourseAdmin.Api.Controllers
         }
 
         // DELETE api/values/5
+        
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

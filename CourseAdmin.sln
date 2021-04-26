@@ -13,7 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseAdmin.WebUi", "Course
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseAdmin.Api", "CourseAdmin.Api\CourseAdmin.Api.csproj", "{EDA20820-9578-431D-8768-AAE6F26D5349}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseAdmin.Auth", "CourseAdmin.Auth\CourseAdmin.Auth.csproj", "{7CF2F44D-78EA-4D69-B577-488A3742A68C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseAdmin.Auth", "CourseAdmin.Auth\CourseAdmin.Auth.csproj", "{7CF2F44D-78EA-4D69-B577-488A3742A68C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplicationTradicionalII", "WebApplicationTradicionalII\WebApplicationTradicionalII.csproj", "{2299BFDD-9395-41AF-B5CE-BAEA85D7E933}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication3", "WebApplication3\WebApplication3.csproj", "{1642D5B9-32BC-43D8-A4B8-E6FBDFA588B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseWebApi", "CourseWebApi\CourseWebApi.csproj", "{3E4430BB-4C07-4297-853C-DAC93B86107C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +51,18 @@ Global
 		{7CF2F44D-78EA-4D69-B577-488A3742A68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CF2F44D-78EA-4D69-B577-488A3742A68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CF2F44D-78EA-4D69-B577-488A3742A68C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2299BFDD-9395-41AF-B5CE-BAEA85D7E933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2299BFDD-9395-41AF-B5CE-BAEA85D7E933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2299BFDD-9395-41AF-B5CE-BAEA85D7E933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2299BFDD-9395-41AF-B5CE-BAEA85D7E933}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1642D5B9-32BC-43D8-A4B8-E6FBDFA588B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1642D5B9-32BC-43D8-A4B8-E6FBDFA588B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1642D5B9-32BC-43D8-A4B8-E6FBDFA588B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1642D5B9-32BC-43D8-A4B8-E6FBDFA588B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E4430BB-4C07-4297-853C-DAC93B86107C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E4430BB-4C07-4297-853C-DAC93B86107C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E4430BB-4C07-4297-853C-DAC93B86107C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E4430BB-4C07-4297-853C-DAC93B86107C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
